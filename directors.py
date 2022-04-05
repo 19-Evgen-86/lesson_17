@@ -2,22 +2,29 @@ from flask import jsonify
 from flask_restx import Resource, abort
 
 from app import db
-from app.models import Movie, Director
-from app.shcemas import MovieSchema
+from app.models import Director
+from app.shcemas import DirectorSchema
 from views import view
 
 director_ns = view.namespace('directors')
 
-movies_schema = MovieSchema(many=True)
+directors_schema = DirectorSchema(many=True)
+director_schema = DirectorSchema()
+
+
+@director_ns.route("/")
+class DirectorsView(Resource):
+    def get(self):
+        directors = db.session.query(Director).all()
+        return jsonify(directors_schema.dump(directors), 200)
 
 
 @director_ns.route("/<int:id>")
-class MovieByDirectorView(Resource):
+class DirectorView(Resource):
     def get(self, id):
-        movies = db.session.query(Movie).filter(Movie.director_id == id).all()
-        director = db.session.query(Director).filter(Director.id == id).first()
+        director = db.session.query(Director).get(id)
 
         if director is None:
             abort(404, "director not found")
 
-        return jsonify(movies_schema.dump(movies), 200)
+        return jsonify(directors_schema.dump(director), 200)

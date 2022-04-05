@@ -6,4 +6,4 @@ view = Api(views)
 
 from views import movies
 from views import directors
-from views import ganres
+from views import genres
