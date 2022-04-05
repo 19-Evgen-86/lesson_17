@@ -64,7 +64,7 @@ class DirectorView(Resource):
             director_dict = director_schema.load(request.json)
             with db.session.begin():
                 db.session.query(Director).filter(Director.id == id).update(director_dict)
-            return jsonify({"message": "update(put) movie success"}, 200)
+            return jsonify({"message": "update(put) director success"}, 200)
 
         except Exception as e:
             return jsonify({"error by put": e.__repr__()}, 404)
@@ -79,7 +79,7 @@ class DirectorView(Resource):
             director_dict = director_schema.load(request.json)
             with db.session.begin():
                 db.session.query(Director).filter(Director.id == id).update(director_dict)
-            return jsonify({"message": "update(patch) movie success"}, 200)
+            return jsonify({"message": "update(patch) director success"}, 200)
 
         except Exception as e:
             return jsonify({"error by patch": e.__repr__()}, 404)
@@ -94,7 +94,7 @@ class DirectorView(Resource):
         try:
             with db.session.begin():
                 db.session.query(Director).filter(Director.id == id).delete()
-            return jsonify({"message": "delete movie success"}, 200)
+            return jsonify({"message": "delete director success"}, 200)
 
         except Exception as e:
             return jsonify({"error by delete": e.__repr__()}, 404)

@@ -46,7 +46,7 @@ class GenreView(Resource):
             genre_dict = genre_schema.load(request.json)
             with db.session.begin():
                 db.session.query(Genre).filter(Genre.id == id).update(genre_dict)
-            return jsonify({"message": "update(put) movie success"}, 200)
+            return jsonify({"message": "update(put) genre success"}, 200)
 
         except Exception as e:
             return jsonify({"error by put": e.__repr__()}, 404)
@@ -57,7 +57,7 @@ class GenreView(Resource):
             genre_dict = genre_schema.load(request.json)
             with db.session.begin():
                 db.session.query(Genre).filter(Genre.id == id).update(genre_dict)
-            return jsonify({"message": "update(patch) movie success"}, 200)
+            return jsonify({"message": "update(patch) genre success"}, 200)
 
         except Exception as e:
             return jsonify({"error by patch": e.__repr__()}, 404)
@@ -66,7 +66,7 @@ class GenreView(Resource):
         try:
             with db.session.begin():
                 db.session.query(Genre).filter(Genre.id == id).delete()
-            return jsonify({"message": "delete movie success"}, 200)
+            return jsonify({"message": "delete genre success"}, 200)
 
         except Exception as e:
             return jsonify({"error by delete": e.__repr__()}, 404)
