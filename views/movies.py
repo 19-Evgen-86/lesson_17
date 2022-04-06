@@ -1,14 +1,13 @@
-from flask import jsonify, request, Blueprint
-from flask_restx import Resource, abort, Api
+from flask import jsonify, request
+from flask import jsonify, request
+from flask_restx import Resource, abort, Namespace
 
-from app import db
-from app.models import Movie
+from app.models import Movie, db
 from app.shcemas import MovieSchema
 
-movies = Blueprint("movies", __name__, url_prefix="/api")
-api = Api(movies)
+movies_ns = Namespace("movies")
 
-movies_ns = api.namespace('movies')
+# movies_ns = api.namespace('movies')
 
 movie_schema = MovieSchema()
 movies_schema = MovieSchema(many=True)
@@ -19,6 +18,7 @@ class MoviesApi(Resource):
     """
     класс для работы с коллекциями из БД
     """
+
     def get(self):
         """
          получаем все фильмы
@@ -47,6 +47,7 @@ class MovieApi(Resource):
     """
     класс для работы с объектом из БД по ID
     """
+
     def get(self, id):
         """
         Получаем информацию о фильме по ID

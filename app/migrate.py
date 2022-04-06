@@ -1,7 +1,9 @@
-from app.models import Director, Genre, Movie,db
+
+from app.models import Director, Genre, Movie, db
 
 
 def migrate():
+
     data = {
         "movies": [{
             "title": "Йеллоустоун",

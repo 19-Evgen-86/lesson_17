@@ -1,14 +1,13 @@
-from flask import jsonify, request, Blueprint
-from flask_restx import Resource, abort, Api
+from flask import jsonify, request
+from flask_restx import Resource, abort, Namespace
 
-from app import db
-from app.models import Genre
+from app.models import Genre, db
 from app.shcemas import GenreSchema
 
-genres = Blueprint("genres", __name__, url_prefix="/api")
-api = Api(genres)
+# genres = Blueprint("genres", __name__, url_prefix="/api")
+genre_ns = Namespace('genres')
 
-genre_ns = api.namespace('genres')
+# genre_ns = api.namespace('genres')
 
 genres_schema = GenreSchema(many=True)
 genre_schema = GenreSchema()

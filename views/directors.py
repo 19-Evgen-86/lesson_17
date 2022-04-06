@@ -1,16 +1,13 @@
-from flask import Blueprint
 from flask import jsonify, request
-from flask_restx import Api
-from flask_restx import Resource, abort
+from flask_restx import Resource, abort, Namespace
 
-from app import db
-from app.models import Director
+from app.models import Director, db
 from app.shcemas import DirectorSchema
 
-directors = Blueprint("directors", __name__, url_prefix="/api")
-api = Api(directors)
+# directors = Blueprint("directors", __name__, url_prefix="/api")
+director_ns = Namespace('directors')
 
-director_ns = api.namespace('directors')
+# director_ns = api.namespace('directors')
 directors_schema = DirectorSchema(many=True)
 director_schema = DirectorSchema()
 
@@ -49,13 +46,11 @@ class DirectorView(Resource):
         :param id:
         :return:
         """
-
-        director = db.session.query(Director.name).get(id)
-
+        director = db.session.query(Director).get(id)
         if director is None:
             abort(404, "director not found")
 
-        return jsonify(directors_schema.dump(director), 200)
+        return jsonify(director_schema.dump(director), 200)
 
     def put(self, id):
         """
