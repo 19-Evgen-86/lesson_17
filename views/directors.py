@@ -1,13 +1,16 @@
+from flask import Blueprint
 from flask import jsonify, request
+from flask_restx import Api
 from flask_restx import Resource, abort
 
 from app import db
 from app.models import Director
 from app.shcemas import DirectorSchema
-from views import view
 
-director_ns = view.namespace('directors')
+directors = Blueprint("directors", __name__, url_prefix="/api")
+api = Api(directors)
 
+director_ns = api.namespace('directors')
 directors_schema = DirectorSchema(many=True)
 director_schema = DirectorSchema()
 

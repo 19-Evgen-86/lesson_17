@@ -1,7 +1,10 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+from app.migrate import migrate
+from app.models import db, create_db
+from views.genres import genres
+from views.movies import movies
+from views.directors import directors
 
 
 def create_app():
@@ -9,14 +12,9 @@ def create_app():
     app.config.from_object('app.config.Config')
     db.init_app(app)
     with app.app_context():
-        from app import models
-        from app.migrate import migrate
-        from views import views
-        # cоздаем БД
-        db.create_all()
-        # заносим данные
+        create_db()
         migrate()
-        # регистрируем Blueprint
-        app.register_blueprint(views)
-
-        return app
+        app.register_blueprint(directors)
+        app.register_blueprint(genres)
+        app.register_blueprint(movies)
+    return app

@@ -1,5 +1,4 @@
-from app import db
-from app.models import Director, Genre, Movie
+from app.models import Director, Genre, Movie,db
 
 
 def migrate():

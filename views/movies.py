@@ -1,12 +1,14 @@
-from flask import jsonify, request
-from flask_restx import Resource, abort
+from flask import jsonify, request, Blueprint
+from flask_restx import Resource, abort, Api
 
 from app import db
 from app.models import Movie
 from app.shcemas import MovieSchema
-from views import view
 
-movies_ns = view.namespace('movies')
+movies = Blueprint("movies", __name__, url_prefix="/api")
+api = Api(movies)
+
+movies_ns = api.namespace('movies')
 
 movie_schema = MovieSchema()
 movies_schema = MovieSchema(many=True)

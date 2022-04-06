@@ -1,5 +1,5 @@
-from app import db
-
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
 
 class Movie(db.Model):
     __tablename__ = 'movie'
@@ -25,3 +25,6 @@ class Genre(db.Model):
     __tablename__ = 'genre'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
+
+def create_db():
+    db.create_all()
