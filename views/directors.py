@@ -21,7 +21,7 @@ class DirectorsView(Resource):
         :return:
         """
         directors = db.session.query(Director.name).all()
-        return jsonify(directors_schema.dump(directors), 200)
+        return directors_schema.dump(directors), 200
 
     def post(self):
         """
@@ -32,10 +32,10 @@ class DirectorsView(Resource):
             director_dict = Director(**directors_schema.load(request.json))
             with db.session.begin():
                 db.session.add(director_dict)
-            return jsonify({"message": "Add director success"}, 200)
+            return {"message": "Add director success"}, 200
 
         except Exception as e:
-            return jsonify({"error by insert": e.__repr__()}, 404)
+            return {"error by insert": e.__repr__()}, 404
 
 
 @director_ns.route("/<int:id>")
@@ -50,7 +50,7 @@ class DirectorView(Resource):
         if director is None:
             abort(404, "director not found")
 
-        return jsonify(director_schema.dump(director), 200)
+        return director_schema.dump(director), 200
 
     def put(self, id):
         """
@@ -62,10 +62,10 @@ class DirectorView(Resource):
             director_dict = director_schema.load(request.json)
             with db.session.begin():
                 db.session.query(Director).filter(Director.id == id).update(director_dict)
-            return jsonify({"message": "update(put) director success"}, 200)
+            return {"message": "update(put) director success"}, 200
 
         except Exception as e:
-            return jsonify({"error by put": e.__repr__()}, 404)
+            return {"error by put": e.__repr__()}, 404
 
     def patch(self, id):
         """
@@ -80,7 +80,7 @@ class DirectorView(Resource):
             return jsonify({"message": "update(patch) director success"}, 200)
 
         except Exception as e:
-            return jsonify({"error by patch": e.__repr__()}, 404)
+            return {"error by patch": e.__repr__()}, 404
 
     def delete(self, id):
         """
@@ -92,7 +92,7 @@ class DirectorView(Resource):
         try:
             with db.session.begin():
                 db.session.query(Director).filter(Director.id == id).delete()
-            return jsonify({"message": "delete director success"}, 200)
+            return {"message": "delete director success"}, 200
 
         except Exception as e:
-            return jsonify({"error by delete": e.__repr__()}, 404)
+            return {"error by delete": e.__repr__()}, 404
