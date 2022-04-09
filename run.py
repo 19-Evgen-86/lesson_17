@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask ,request
 from flask_restx import Api
 
 from app.config import Config
@@ -18,16 +18,17 @@ def create_app(config):
 
 
 def register_extensions(app):
+
     with app.app_context():
         db.init_app(app)
 
         db.create_all()
         migrate()
 
-        api = Api(app)
-        api.add_namespace(director_ns)
-        api.add_namespace(genre_ns)
-        api.add_namespace(movies_ns)
+    api = Api(app,prefix="/api")
+    api.add_namespace(director_ns)
+    api.add_namespace(genre_ns)
+    api.add_namespace(movies_ns)
 
 
 app = create_app(Config)
