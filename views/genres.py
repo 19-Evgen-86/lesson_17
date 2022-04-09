@@ -16,9 +16,7 @@ genre_schema = GenreSchema()
 @genre_ns.route("/")
 class GenresView(Resource):
     def get(self):
-
         genres = db.session.query(Genre).all()
-
         return jsonify(genres_schema.dump(genres), 200)
 
     def post(self):

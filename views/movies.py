@@ -24,18 +24,7 @@ class MoviesApi(Resource):
          получаем все фильмы
         :return:
         """
-
-        director_id = request.args.get("director_id")
-        genre_id = request.args.get("genre_id")
-
-        movies_query = db.session.query(Movie)
-
-        if director_id:
-            movies_query = movies_query.filter(Movie.director_id == director_id)
-        if genre_id:
-            movies_query = movies_query.filter(Movie.genre_id == genre_id)
-
-        movies = movies_query.all()
+        movies = db.session.query(Movie).all()
         return jsonify(movies_schema.dump(movies), 200)
 
     def post(self):
