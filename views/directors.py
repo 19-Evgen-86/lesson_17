@@ -77,7 +77,7 @@ class DirectorView(Resource):
             director_dict = director_schema.load(request.json)
             with db.session.begin():
                 db.session.query(Director).filter(Director.id == id).update(director_dict)
-            return jsonify({"message": "update(patch) director success"}, 200)
+            return {"message": "update(patch) director success"}, 200
 
         except Exception as e:
             return {"error by patch": e.__repr__()}, 404

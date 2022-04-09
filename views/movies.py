@@ -1,5 +1,4 @@
 from flask import jsonify, request
-from flask import jsonify, request
 from flask_restx import Resource, abort, Namespace
 
 from app.models import Movie, db
@@ -35,7 +34,7 @@ class MoviesApi(Resource):
 
         movies = movies_query.all()
 
-        return jsonify(movies_schema.dump(movies), 200)
+        return movies_schema.dump(movies), 200
 
     def post(self):
         """
@@ -49,7 +48,7 @@ class MoviesApi(Resource):
             return jsonify({"message": "Add movie success"}, 200)
 
         except Exception as e:
-            return jsonify({"error by insert": e.__repr__()}, 404)
+            return {"error by insert": e.__repr__()}, 404
 
 
 @movies_ns.route("/<int:id>")
@@ -67,7 +66,7 @@ class MovieApi(Resource):
         movie = db.session.query(Movie).filter(Movie.id == id).first()
         if movie is None:
             abort(404, " movie not found")
-        return jsonify(movie_schema.dump(movie), 200)
+        return movie_schema.dump(movie), 200
 
     def put(self, id):
         """
@@ -79,10 +78,10 @@ class MovieApi(Resource):
             movie_dict = movie_schema.load(request.json)
             with db.session.begin():
                 db.session.query(Movie).filter(Movie.id == id).update(movie_dict)
-            return jsonify({"message": "update(put) movie success"}, 200)
+            return {"message": "update(put) movie success"}, 200
 
         except Exception as e:
-            return jsonify({"error by put": e.__repr__()}, 404)
+            return {"error by put": e.__repr__()}, 404
 
     def patch(self, id):
         """
@@ -94,10 +93,10 @@ class MovieApi(Resource):
             movie_dict = movie_schema.load(request.json)
             with db.session.begin():
                 db.session.query(Movie).filter(Movie.id == id).update(movie_dict)
-            return jsonify({"message": "update(patch) movie success"}, 200)
+            return {"message": "update(patch) movie success"}, 200
 
         except Exception as e:
-            return jsonify({"error by patch": e.__repr__()}, 404)
+            return {"error by patch": e.__repr__()}, 404
 
     def delete(self, id):
         """
@@ -109,7 +108,7 @@ class MovieApi(Resource):
         try:
             with db.session.begin():
                 db.session.query(Movie).filter(Movie.id == id).delete()
-            return jsonify({"message": "delete movie success"}, 200)
+            return {"message": "delete movie success"}, 200
 
         except Exception as e:
-            return jsonify({"error by delete": e.__repr__()}, 404)
+            return {"error by delete": e.__repr__()}, 404
